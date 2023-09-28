@@ -5,7 +5,7 @@ interface Taxi extends Document {
     model: string;
     capacity: number;
     category: string;
-    available: boolean;
+    available?: boolean;
 }
 
 const taxiSchema = new Schema<Taxi>({
@@ -13,7 +13,7 @@ const taxiSchema = new Schema<Taxi>({
     model: { type: String, required: true},
     capacity: { type: Number, required: true},
     category: { type: String, required: true },
-    available: {type: Boolean, required: true},
+    available: {type: Boolean, required: false},
 });
 
 const TaxiCollection = mongoose.model<Taxi>('taxi_collections', taxiSchema);

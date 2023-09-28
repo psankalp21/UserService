@@ -7,11 +7,9 @@ export default class BaseEntity {
     async findOne(condition) {
         return await this.modelName.findOne(condition)
     }
-    async find(condition?) {
-        if (condition)
-            return await this.modelName.find(condition)
-        else
-            return await this.modelName.find()
+    async find(condition = {}, pagination?) {
+        return await this.modelName.find(condition).skip(pagination.skip).limit(pagination.limit)
+
     }
     async create(payload) {
         return await this.modelName.create(payload)

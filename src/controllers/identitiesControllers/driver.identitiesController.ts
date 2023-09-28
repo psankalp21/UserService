@@ -17,8 +17,6 @@ export class driver_auth_controller {
             console.log(e);
             res.send({ "Error: ": e.message });
         }
-
-
     }
 
     async forgotPassword(req: Request, res: Response) {
@@ -33,4 +31,19 @@ export class driver_auth_controller {
             res.send({ "Error: ": e.message });
         }
     }
+
+    async passwordReset(req: Request, res: Response) {
+
+        const payload = req.body;
+        try {
+            const user = await driverAuthServices.passwordReset(payload);
+            res.send({ "Message": "Password Updated" })
+        }
+        catch (e) {
+            console.log(e);
+            res.send({ "Error: ": e.message });
+        }
+    }
+
+    
 }

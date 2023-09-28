@@ -8,7 +8,8 @@ export let appConfig = {
     EMAIL_USER : process.env.EMAIL_USER,
     EMAIL_PASSWORD : process.env.EMAIL_PASSWORD,
     SECRET_KEY : process.env.SECRET_KEY,
-    ENCRYPTION_KEY : process.env.ENCRYPTION_KEY
+    ENCRYPTION_KEY : process.env.ENCRYPTION_KEY,
+    SALT : 10
   }
 };
 

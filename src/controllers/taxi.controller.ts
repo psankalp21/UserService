@@ -1,12 +1,14 @@
 import { Request, Response } from 'express';
-import { TaxiServices } from '../../services/taxi.services';
+import { TaxiServices } from '../services/taxi.services';
 
-export class agent_taxi_controller {
+export class taxi_controller {
     async addTaxi(req: Request, res: Response) {
         const payload = req.body;
+        const payload_category: string = req.body.category
+        payload.category = payload_category.toUpperCase();
         try {
             await TaxiServices.addTaxi(payload);
-            res.send("Taxi added")
+            res.send({ Message: "Taxi added" })
         }
         catch (e) {
             console.log(e);
@@ -14,9 +16,39 @@ export class agent_taxi_controller {
         }
     }
 
+    async updateTaxiDetails(req: Request, res: Response) {
+        const id = req.body.id;
+        const payload = req.body.update;
+        const payload_category: string = payload.category
+        if (payload_category)
+            payload.category = payload_category.toUpperCase();
+        try {
+            await TaxiServices.updateTaxiDetails(id, payload);
+            res.send({ Message: "Taxi updated" })
+        }
+        catch (e) {
+            console.log(e);
+            res.send({ "Error: ": e.message });
+        }
+    }
+
+
     async getAllTaxi(req: Request, res: Response) {
         try {
-            const taxis = await TaxiServices.getAllTaxis();
+            const page = parseInt(req.query.page as string) ;
+            const limit = parseInt(req.query.limit as string);
+
+            const skip = (page - 1) * limit;
+            const itemsPerPage = limit*1;
+
+            const pagination = {
+                limit : itemsPerPage,
+                skip : skip
+            }
+
+            const taxis = await TaxiServices.getAllTaxis(pagination);
+            if(taxis.length == 0)
+                throw new Error("No Data")
             res.send({ Taxis: taxis })
         }
         catch (e) {
@@ -38,7 +70,7 @@ export class agent_taxi_controller {
 
     async getTaxiById(req: Request, res: Response) {
         try {
-            const id = req.query.id
+            const id = req.query.id as string
             const taxi = await TaxiServices.getTaxiById(id);
             res.send({ Taxi: taxi })
         }

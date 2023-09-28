@@ -20,7 +20,6 @@ function verifyToken(req: Request, res: Response, next: NextFunction): any {
     req.headers.id=decoded.id;
     req.headers.role=decoded.role;
     req.headers.token=token;
-    console.log("next called")
     next();
   } catch (err) {
     console.log(err);

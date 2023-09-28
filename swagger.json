@@ -1,0 +1,67 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Travel Agent API",
+    "version": "1.0.0",
+    "description": "API documentation for the Travel Agent Project"
+  },
+  "paths": {
+    "/user/user_login": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "description": "User login endpoint.",
+        "requestBody": {
+          "description": "User login credentials",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "user@example.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "UserPassword123"
+                  }
+                },
+                "required": [
+                  "email",
+                  "password"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful user login"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "AuthHeader": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "AuthHeader": {
+        "type": "apiKey",
+        "name": "Auth",
+        "in": "header"
+      }
+    }
+  }
+}

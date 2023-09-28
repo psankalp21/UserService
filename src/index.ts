@@ -5,10 +5,10 @@ import UserCollection from './database/models/users.model';
 import TaxiCollection from './database/models/taxi.model';
 import DriverCollection from './database/models/driver.model';
 import {appConfig} from './common/appconfig';
-
+import * as swaggerUi from "swagger-ui-express";
+import * as swaggerDocument from '../swagger.json';
 
 const PORT = appConfig.env.PORT
-console.log(PORT);
 
 const app = express();
 
@@ -20,8 +20,9 @@ mongoose.connect(appConfig.env.MONGODB_URI, {
     useUnifiedTopology: true,
 } as ConnectOptions);
 
-app.use('/', routes);
 
+app.use('/', routes);
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
   
 app.listen(PORT, () => {

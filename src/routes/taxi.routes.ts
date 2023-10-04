@@ -6,7 +6,6 @@ const taxi = new taxi_controller();
 
 const router: Router = express.Router();
 
-router.use(verifyToken);
 
 router.post('/add_taxi', taxi.addTaxi);
 router.patch('/update_taxi_details', taxi.updateTaxiDetails);

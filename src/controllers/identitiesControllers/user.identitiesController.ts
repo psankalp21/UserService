@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
-import { loginPayload, signupPayload, signupVerification } from '../../interface/controllers/auth';
+import { forgotPassword, loginPayload, signupPayload, signupVerification } from '../../interface/controllers/identities';
 import { userAuthServices } from '../../services/identitiesServices/user.identitiesServices';
 
 export class user_auth_controller {
     async requestSignup(req: Request, res: Response) {
-        const payload: signupPayload = req.body as signupPayload ;
+        const payload: signupPayload = req.body as signupPayload;
         try {
             const user = await userAuthServices.requestSignup(payload);
             res.send("Please verify your email to complete signup.")
@@ -16,7 +16,7 @@ export class user_auth_controller {
     }
 
     async verifyEmailandSignup(req: Request, res: Response) {
-        const payload : signupVerification= req.body as signupVerification;
+        const payload: signupVerification = req.body as signupVerification;
         try {
             const user = await userAuthServices.verifyEmailandSignup(payload);
             res.send("Signup Success!")
@@ -29,7 +29,7 @@ export class user_auth_controller {
 
     async login(req: Request, res: Response) {
         console.log("user login hit")
-        const payload :loginPayload = req.body as loginPayload;
+        const payload: loginPayload = req.body;
         try {
             const user = await userAuthServices.login(payload);
             res.send({
@@ -46,8 +46,7 @@ export class user_auth_controller {
     }
 
     async forgotPassword(req: Request, res: Response) {
-
-        const payload = req.body;
+        const payload:forgotPassword = req.body;
         try {
             const user = await userAuthServices.forgotPassword(payload);
             res.send({ "Message": user })

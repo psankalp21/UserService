@@ -16,7 +16,7 @@ class TaxiEntity extends BaseEntity {
 
     async getAllTaxis(condition, pagination?) {
         condition = {}
-        return await this.find(condition, pagination)
+        return await this.findPagination(condition, pagination)
     }
 
     async updateTaxi(condition, payload) {

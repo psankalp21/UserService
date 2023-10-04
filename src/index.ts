@@ -5,11 +5,9 @@ import UserCollection from './database/models/users.model';
 import TaxiCollection from './database/models/taxi.model';
 import DriverCollection from './database/models/driver.model';
 import {appConfig} from './common/appconfig';
-import * as swaggerUi from "swagger-ui-express";
-import * as swaggerDocument from '../swagger.json';
+import { GrpcClass } from './utils/grpc';
 
 const PORT = appConfig.env.PORT
-
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));
@@ -20,13 +18,14 @@ mongoose.connect(appConfig.env.MONGODB_URI, {
     useUnifiedTopology: true,
 } as ConnectOptions);
 
+const grpc = new GrpcClass()
+// grpc;
 
 app.use('/', routes);
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-  
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
+
     UserCollection;
     TaxiCollection;
     DriverCollection;

@@ -35,9 +35,10 @@ export class taxi_controller {
 
     async getAllTaxi(req: Request, res: Response) {
         try {
-            const page = parseInt(req.query.page as string) ;
+            const page = parseInt(req.query.page as string);
             const limit = parseInt(req.query.limit as string);
 
+            console.log("")
             const skip = (page - 1) * limit;
             const itemsPerPage = limit*1;
 

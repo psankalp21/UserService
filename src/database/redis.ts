@@ -19,5 +19,4 @@ export class redis {
     static async ttl(key: string): Promise<number> {
         return await client.ttl(key);
     }
-
 }

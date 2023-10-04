@@ -2,9 +2,10 @@ import { AgentE } from "../../entities/agent.entity";
 import bcrypt from 'bcrypt'
 import { generateToken } from "../../middlewares/jwt";
 import { redis } from "../../database/redis";
-import { loginPayload, signupPayload, signupVerification } from "../../interface/controllers/auth";
+import { loginPayload, signupPayload, signupVerification } from "../../interface/controllers/identities";
 import { autoGenerator } from "../../utils/autoGenerator";
 import { emailSender } from "../../utils/nodemailer";
+import { User } from "../../database/models/users.model";
 
 
 
@@ -42,7 +43,7 @@ class agent_auth_services {
 
     async login(payload: loginPayload) {
         console.log(payload)
-        let user = await AgentE.getUser({ email: payload.email })
+        let user:User = await AgentE.getUser({ email: payload.email })
         console.log(user)
         if (!user)
             throw new Error("Invalid Email!")

@@ -1,10 +1,11 @@
+import { Driver } from "../database/models/driver.model"
 import { DriverE } from "../entities/driver.entity"
 import { autoGenerator } from "../utils/autoGenerator"
 import { emailSender } from "../utils/nodemailer"
 
 
 class driver_services {
-    async addDriver(payload) {
+    async addDriver(payload:Driver) {
         if (await this.getDriver({ email: payload.email }) || await this.getDriver({ phone: payload.phone }))
             throw new Error("Driver already exists")
         payload.password = await autoGenerator.passwordGenerator()

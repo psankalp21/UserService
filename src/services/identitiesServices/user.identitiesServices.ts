@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt'
 import { generateToken } from "../../middlewares/jwt";
 import { redis } from "../../database/redis";
-import { loginPayload, signupPayload, signupVerification } from "../../interface/controllers/auth";
+import { loginPayload, signupPayload, signupVerification } from "../../interface/controllers/identities";
 import { UserE } from "../../entities/user.entity";
 import { autoGenerator } from "../../utils/autoGenerator";
 import { emailSender } from "../../utils/nodemailer";
@@ -48,15 +48,14 @@ class user_auth_services {
         if (!user)
             throw new Error("Invalid Email!")
         const isValid = await bcrypt.compare(payload.password, user.password);
-        
+
         if (!isValid)
             throw new Error("Invalid Password")
-        const token = generateToken({ id: user._id, role:"USER" });
+        const token = generateToken({ id: user._id, role: "USER" });
         return token
     }
 
     async forgotPassword(payload) {
-       
         if (await this.isBlocked(payload.email))
             throw new Error("You have requested for OTP too many times. Please try again later.")
         const ttl = await redis.ttl(`${payload.email}_fgtpwd`)
@@ -65,14 +64,13 @@ class user_auth_services {
         const otp = await autoGenerator.otpGenerator(`${payload.email}_fgtpwd`, 120)
         await emailSender.sendEmail(payload.email, "OTP for password reset", `Hello ${payload.first_name}, Your OTP for password reset is ${otp}. Code will expire in 2 minutes.`)
         await this.increaseAttempts(payload.email)
-        return 
+        return
     }
 
-    async updatePassword(payload)
-    {
+    async updatePassword(payload) {
         const stored_otp = redis.get(`${payload.email}_fgtpwd`);
-        if(payload.otp != stored_otp )
-            throw new Error("Invalid OTP")   
+        if (payload.otp != stored_otp)
+            throw new Error("Invalid OTP")
     }
 
     async increaseAttempts(email: string) {

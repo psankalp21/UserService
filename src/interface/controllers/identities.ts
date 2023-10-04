@@ -17,3 +17,13 @@ export interface loginPayload{
     email: string,
     password: string,
 }
+
+export interface forgotPassword{
+    email: string,
+}
+
+export interface passwordReset{
+    email: string,
+    otp: string,
+    password: string
+}

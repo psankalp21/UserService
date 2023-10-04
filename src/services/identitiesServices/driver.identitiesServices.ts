@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt'
 import { generateToken } from "../../middlewares/jwt";
 import { redis } from "../../database/redis";
-import { loginPayload } from "../../interface/controllers/auth";
+import { loginPayload, passwordReset } from "../../interface/controllers/identities";
 import { DriverE } from "../../entities/driver.entity";
 import { autoGenerator } from "../../utils/autoGenerator";
 import { emailSender } from "../../utils/nodemailer";
@@ -40,8 +40,8 @@ class driver_auth_services {
         return
     }
 
-    async passwordReset(payload) {
-        const stored_otp = redis.get(`${payload.email}_fgtpwd`);
+    async passwordReset(payload:passwordReset) {
+        const stored_otp = await redis.get(`${payload.email}_fgtpwd`);
         if (payload.otp != stored_otp)
             throw new Error("Invalid OTP")
         const salt = 10;

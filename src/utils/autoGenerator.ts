@@ -1,8 +1,8 @@
 import { redis } from "../database/redis";
 
-class Autogenerator {
+class auto_generator {
     async otpGenerator(key: string, exp: number) {
-        const length = 6
+        const length = 6;
         const characters = '0123456789';
         let otp = '';
         for (let i = 0; i < length; i++) {
@@ -26,4 +26,4 @@ class Autogenerator {
 }
 
 
-export const autoGenerator = new Autogenerator()
+export const autoGenerator = new auto_generator()
